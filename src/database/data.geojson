@@ -1,0 +1,36 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [106.827183, -6.175394]
+      },
+      "properties": {
+        "name": "Monas",
+        "city": "Jakarta",
+        "description": "Monumen Nasional"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [106.824964, -6.173269],
+            [106.829401, -6.173269],
+            [106.829401, -6.177402],
+            [106.824964, -6.177402],
+            [106.824964, -6.173269]
+          ]
+        ]
+      },
+      "properties": {
+        "name": "Taman Monas",
+        "description": "Area sekitar Monas"
+      }
+    }
+  ]
+}
