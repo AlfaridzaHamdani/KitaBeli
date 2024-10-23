@@ -66,7 +66,7 @@ const Maps = () => {
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
-      style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${API_KEY}`,
+      style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${API_KEY}`,
       center: [lng, lat],
       zoom: zoom,
     });
