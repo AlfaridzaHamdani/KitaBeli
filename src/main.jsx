@@ -1,8 +1,9 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import Dashboard from "./pages/dashboard";
-import Maps from "./pages/maps";
+import Information from "./pages/information";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
@@ -10,8 +11,8 @@ const router = createBrowserRouter([
     element: <Dashboard />,
   },
   {
-    path: "/maps",
-    element: <Maps />,
+    path: "/information",
+    element: <Information />,
   },
 ]);
 
