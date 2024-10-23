@@ -1,7 +1,9 @@
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useNavigate } from "react-router-dom";
+import Timer from "./timer";
+import ReactDOM from "react-dom";
 
 const Maps = () => {
   const mapContainer = useRef(null);
@@ -15,6 +17,8 @@ const Maps = () => {
   const zoom = 15;
   const API_KEY = "eX2wDavS7RwXiaU08uav";
   const navigate = useNavigate();
+
+  const timersRef = useRef({});
 
   const dataMap = {
     type: "FeatureCollection",
@@ -34,8 +38,10 @@ const Maps = () => {
         },
         properties: {
           name: "Monas",
+          nav: "monas",
           city: "Jakarta",
           description: "Monumen Nasional",
+          timer: 600,
         },
       },
       {
@@ -53,15 +59,24 @@ const Maps = () => {
           ],
         },
         properties: {
-          name: "Kolam Depan Monumen Nasional",
+          name: "Kolam Depan Monas",
+          nav: "kolam-depan-istana",
           city: "Jakarta",
           description: "Kolam",
+          timer: 3,
         },
       },
     ],
   };
 
   useLayoutEffect(() => {
+    dataMap.features.forEach((feature) => {
+      timersRef.current[feature.properties.name] = {
+        startTime: Date.now(),
+        placeName: feature.properties.name,
+      };
+    });
+
     if (map.current) return;
 
     map.current = new maplibregl.Map({
@@ -114,11 +129,21 @@ const Maps = () => {
           );
 
           const feature = e.features[0];
+          const featureId = feature.properties.name;
+
+          const popNode = document.createElement("div");
+
+          ReactDOM.render(
+            <Timer
+              initialTime={feature.properties.timer}
+              startTime={timersRef.current[featureId].startTime}
+            />,
+            popNode
+          );
+
           popup.current
             .setLngLat(e.lngLat)
-            .setHTML(
-              `<strong>${feature.properties.name}</strong><br>${feature.properties.description}`
-            )
+            .setDOMContent(popNode)
             .addTo(map.current);
         }
       });
@@ -135,7 +160,12 @@ const Maps = () => {
       });
 
       map.current.on("click", "monas-area-fill", (e) => {
-        navigate("/information");
+        const feature = e.features[0];
+        const placeName = feature.properties.nav
+          .toLowerCase()
+          .replace(/\s+/g, "");
+
+        navigate(`/${placeName}`);
       });
     });
   }, [API_KEY, lng, lat, zoom, navigate]);
